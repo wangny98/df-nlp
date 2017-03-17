@@ -165,7 +165,7 @@ public class NLPService {
           }
         }
         
-		
+        System.out.println(text);
 		System.out.println(dependencies.toString());
 		System.out.println(result.toString());
 		System.out.println("----------------------------------------------");
