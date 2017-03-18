@@ -168,6 +168,9 @@ public class ProductSelection {
 	}
 
 	public List<String> getQuantity() {
+		if(quantity == null){
+			quantity = new ArrayList<String>();
+		}
 		return quantity;
 	}
 

@@ -6,15 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ineuron.domain.nlp.annotator.annotation.QuantityAnnotation;
 import com.ineuron.domain.nlp.valueobject.ProductSelection;
 
-import edu.stanford.nlp.coref.CorefCoreAnnotations;
-import edu.stanford.nlp.coref.data.CorefChain;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -61,11 +59,26 @@ public class NLPService {
 	public ProductSelection parseText(String text) {
 		
 		ProductSelection result = new ProductSelection();
-		
+		System.out.println(1);
 		Annotation document = new Annotation(text);
-		
+		System.out.println(2);
 		corenlp.annotate(document);
-		SemanticGraph dependencies = parserOutput(document);
+		System.out.println(3);
+		CoreMap sentence = document.get(CoreAnnotations.SentencesAnnotation.class).get(0);
+		System.out.println(4);
+		//start customer annotations
+		
+		Set<String> quantities = sentence.get(QuantityAnnotation.class);
+		System.out.println(5);
+		System.out.println(quantities == null);
+		System.out.println(result.getQuantity());
+		result.getQuantity().addAll(quantities);
+		
+		//end customer annotations
+		
+		
+		SemanticGraph dependencies = parserOutput(sentence);
+		
 		IndexedWord root = dependencies.getFirstRoot();
 
         Set<String> otherAttrs = new HashSet<String>();
@@ -108,7 +121,7 @@ public class NLPService {
             	result.addColor(child.lemma());
         		continue;
             }
-     
+        	
         	
         	//VA Predicative adjective
         	//JJ Noun-modifier other than nouns
@@ -212,7 +225,9 @@ public class NLPService {
 		Annotation document = new Annotation(attribute);
 		
 		corenlp.annotate(document);
-		SemanticGraph dependencies = parserOutput(document);
+		CoreMap sentence = document.get(CoreAnnotations.SentencesAnnotation.class).get(0);
+		
+		SemanticGraph dependencies = parserOutput(sentence);
 		IndexedWord root = dependencies.getFirstRoot();
 		if(COLOR.equals(root.ner())){
     		result.addColor(root.lemma());
@@ -249,22 +264,17 @@ public class NLPService {
 		return null;
 	}
 
-	public SemanticGraph parserOutput(Annotation document) {
+	public SemanticGraph parserOutput(CoreMap sentence) {
 		// these are all the sentences in this document
 		// a CoreMap is essentially a Map that uses class objects as keys and
 		// has values with custom types
-		CoreMap sentence = document.get(CoreAnnotations.SentencesAnnotation.class).get(0);
-		/*Set<String> colors = sentence.get(ColorAnnotation.class);
-		for(String color : colors){
-			System.out.println("color = " + color);
-		}*/
 		SemanticGraph dependencies = sentence
 				.get(SemanticGraphCoreAnnotations.EnhancedPlusPlusDependenciesAnnotation.class);
 		
-		Collection<CorefChain> corefs = document.get(CorefCoreAnnotations.CorefChainAnnotation.class).values();
+		/*Collection<CorefChain> corefs = document.get(CorefCoreAnnotations.CorefChainAnnotation.class).values();
 		for (CorefChain cc : corefs) {
 		      System.out.println("\t CorefChain = " + cc);
-		    }
+		    }*/
 		return dependencies;
 	}
 

@@ -1,15 +1,5 @@
 ( [ {ner:NUMBER} ] /天|周|星期|月|年//后/ )	FUTURE_DATE
 ( [ {ner:NUMBER} ] /个//月|星期//后/ )	FUTURE_DATE
-( [ {ner:NUMBER} | {word::IS_NUM} | {tag:CD}] /L|l|ML|ml|kg|g|毫升|升|毫克|千克|克|吨|公斤|桶/ )	QUANTITY
-/\dL+/	QUANTITY
-( [ { word:/\dL+/; tag:"CD" } ] )	QUANTITY
-( [ {word:/20L/} & {tag:CD} ] )	QUANTITY
-( [ { word:"20L" } ] )	QUANTITY
-( [ {tag:"CD"} ] )	QUANTITY
-( [ {tag:CD} ] )	QUANTITY
-( [ {lemma:/20L/; tag:"CD"} ] )	QUANTITY
-( [ {lemma:/20L/} & {tag:CD} ] )	QUANTITY
-( [ {word:/20L/; tag:"CD"} ] )	QUANTITY
-( [ {word:/20L/} & {tag:CD} ] )	QUANTITY
 明天	FUTURE_DATE
 后天	FUTURE_DATE
+( [ {ner:NUMBER} | {word::IS_NUM} | {tag:CD}] /L|l|ML|ml|kg|g|毫升|升|毫克|千克|克|吨|公斤|斤|桶/ )	QUANTITY

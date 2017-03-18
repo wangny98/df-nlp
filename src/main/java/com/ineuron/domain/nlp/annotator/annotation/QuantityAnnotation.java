@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Annotation for the statements of a sentence.
  */
-public class PurposeAnnotation implements CoreAnnotation<Set<String>> {
+public class QuantityAnnotation implements CoreAnnotation<Set<String>> {
     public Class<Set<String>> getType() {
         return ErasureUtils.<Class<Set<String>>>uncheckedCast(String.class);
     }
