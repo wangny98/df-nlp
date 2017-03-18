@@ -62,7 +62,7 @@ public class NERQuantityAnnotator implements Annotator{
 	private static String[] splitStr(String str){
 		StringBuilder number = new StringBuilder();
 		StringBuilder unit = new StringBuilder();
-		for (int i = str.length();--i>=0;){
+		for (int i = 0; i < str.length(); i++){
 			if (Character.isDigit(str.charAt(i))){
 				number.append(str.charAt(i));
 			}else{
