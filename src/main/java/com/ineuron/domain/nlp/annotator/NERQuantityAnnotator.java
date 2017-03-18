@@ -1,7 +1,8 @@
 package com.ineuron.domain.nlp.annotator;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -27,7 +28,7 @@ public class NERQuantityAnnotator implements Annotator{
     }
 
 	public void annotate(Annotation annotation) {
-		Set<String> quantities = new HashSet<String>();
+		List<String> quantities = new ArrayList<String>();
 		CoreMap sentence = annotation.get(CoreAnnotations.SentencesAnnotation.class).get(0);
 		for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {  
             // this is the text of the token  

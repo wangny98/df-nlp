@@ -68,7 +68,7 @@ public class NLPService {
 		System.out.println(4);
 		//start customer annotations
 		
-		Set<String> quantities = sentence.get(QuantityAnnotation.class);
+		List<String> quantities = sentence.get(QuantityAnnotation.class);
 		System.out.println(5);
 		System.out.println(quantities == null);
 		System.out.println(result.getQuantity());
