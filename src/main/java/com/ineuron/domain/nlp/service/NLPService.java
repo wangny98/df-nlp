@@ -59,19 +59,14 @@ public class NLPService {
 	public ProductSelection parseText(String text) {
 		
 		ProductSelection result = new ProductSelection();
-		System.out.println(1);
 		Annotation document = new Annotation(text);
-		System.out.println(2);
 		corenlp.annotate(document);
-		System.out.println(3);
 		CoreMap sentence = document.get(CoreAnnotations.SentencesAnnotation.class).get(0);
-		System.out.println(4);
+		
 		//start customer annotations
 		
 		List<String> quantities = sentence.get(QuantityAnnotation.class);
-		System.out.println(5);
-		System.out.println(quantities == null);
-		System.out.println(result.getQuantity());
+
 		result.getQuantity().addAll(quantities);
 		
 		//end customer annotations

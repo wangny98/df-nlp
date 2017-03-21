@@ -19,7 +19,7 @@ import edu.stanford.nlp.util.CoreMap;
 
 public class NERQuantityAnnotator implements Annotator{
 	
-	Pattern pattern = Pattern.compile("\\d+L");
+	Pattern pattern = Pattern.compile("\\d+(L|l|升|ML|ml|毫升|KG|kg|千克|公斤|G|g|克|T|t|吨|斤)");
 	
 	public NERQuantityAnnotator(String name, Properties properties) {
         String prefix = (name != null && !name.isEmpty())? name + ".":"";
@@ -36,7 +36,7 @@ public class NERQuantityAnnotator implements Annotator{
             // this is the POS tag of the token  
             String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
             
-            if(pos.equals("CD") ){
+            if(pos.equals("CD") || pos.equals("VV")){
             	Matcher matcher = pattern.matcher(word);
             	if(matcher.matches()){
             		String[] result = splitStr(word);
@@ -45,8 +45,6 @@ public class NERQuantityAnnotator implements Annotator{
             	}
             	         	
             }
-            System.out.println(word+"\t"+pos);  
-            
         }  
 		sentence.set(QuantityAnnotation.class, quantities);      
 		
